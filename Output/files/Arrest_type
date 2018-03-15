@@ -1,0 +1,20 @@
+Arrest code	Arrest Type
+L	Motorcycle
+O	Foot Patrol
+Q	Marked Laser
+A	Marked Patrol
+C	Marked VASCAR
+P	Mounted Patrol
+R	Unmarked Laser
+B	Unmarked Patrol
+D	Unmarked VASCAR
+K	Aircraft Assist
+M	Marked (Off-Duty)
+N	Unmarked (Off-Duty)
+E	Marked Stationary Radar
+F	Unmarked Stationary Radar
+S	License Plate Recognition
+I	Marked Moving Radar (Moving)
+J	Unmarked Moving Radar (Moving)
+G	Marked Moving Radar (Stationary)
+H	Unmarked Moving Radar (Stationary)

@@ -1,0 +1,40 @@
+Dataset = LOAD 's3://bigdataproj590/input/Traffic_Violations.csv' USING PigStorage(',') AS (Date_of_Stop:chararray,
+Time_Of_Stop:chararray,
+Agency:chararray,
+SubAgency:chararray,
+Description:chararray,
+Location:chararray,
+Latitude:chararray,
+Longitude:chararray,
+Accident:chararray,
+Belts:chararray,
+Personal_Injury:chararray,
+Property_Damage:chararray,
+Fatal:chararray,
+Commercial_License:chararray,
+HAZMAT:chararray,
+Commercial_Vehicle:chararray,
+Alcohol:chararray,
+Work_Zone:chararray,
+State:chararray,
+VehicleType:chararray,
+Year:int,
+Make:chararray,
+Model:chararray,
+Color:chararray,
+Violation_Type:chararray,
+Charge:chararray,
+Article:chararray,
+Contributed_To_Accident:chararray,
+Race:chararray,
+Gender:chararray,
+Driver_City:chararray,
+Driver_State:chararray,
+DL_State:chararray,
+Arrest_Type:chararray);
+Data_projection = FOREACH Dataset GENERATE Description;
+Data_group = GROUP Data_projection BY Description;
+Reason_count = FOREACH Data_group GENERATE group, COUNT(Data_projection) as cnt;
+Order_reason = ORDER Reason_count BY cnt DESC;
+top_reason = LIMIT Order_reason 10;
+STORE top_reason INTO 's3://bigdataproj590/output/Top_Reason';

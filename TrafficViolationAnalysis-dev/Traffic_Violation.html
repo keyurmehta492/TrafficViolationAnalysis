@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Traffic Violation</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+              integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body bgcolor="#F8F7F4">
+        <div class="container-fluid">
+            <div class="row">
+               
+                <div class="col" style="padding:0 30px;">
+                   		 
+                        <div class="header_text">
+                        <font> <u>Traffic Violation Analysis </u> </font>
+                    </div>
+
+                    <div class="body">
+                        <div style="display: block;">
+                            <b style="margin-right: 30px">Select Category </b>
+                            <div style="display: inline-block;">
+                                <input type="radio" name="Category" id="Category0" value="Overall"> Overall </input>
+                                <input type="radio" name="Category" id="Category1" value="Alcohol"> Alcohol </input>
+                                <input type="radio" name="Category" id="Category2" value="Belts"> Belts </input>
+                                <input type="radio" name="Category" id="Category3" value="Commercial_License"> Commercial_License </input>
+                                <input type="radio" name="Category" id="Category4" value="Personal_Injury"> Personal_Injury </input>
+                                <input type="radio" name="Category" id="Category5" value="Property_Damage"> Property_Damage </input>
+                                <input type="radio" name="Category" id="Category6" value="Fatal"> Fatal </input>
+                            </div>
+                            <input id="map2" type="button" class="btn btn-success"  value="Show Map" style="margin-left:20px;" onClick="map();"/>
+                        </div>
+
+                        <hr style="border: transparent;">
+                        <div id="map" style="text-align: center;"></div>
+
+                        
+                        <hr style="border: transparent;">
+                        <b>Select Type </b>
+                        <select id="chart_type" class="custom-select" style="display: inline-block;margin-right: 30px;">
+                            <option selected>Select Type</option>
+                            <option value="Time_wise">Time Wise</option>
+                            <option value="Gender_wise">Gender Wise</option>
+                            <option value="Top_Reason">Top Reason</option>
+                        </select>
+
+                        <div id="selection-options" style="display: inline-block">
+                           <div style="display: inline-block;">
+                           	<div id="options" style="display: inline-block">
+                                <input type="radio" name="Condition" id="Condition1" value="HAZMAT"> HAZMAT </input>
+                                <input type="radio" name="Condition" id="Condition2" value="Belt"> Belt </input>
+                                <input type="radio" name="Condition" id="Condition3" value="Commercial License"> Commercial License </input>
+                                <input type="radio" name="Condition" id="Condition4" value="Alcohol"> Alcohol </input>
+                            </div>
+                           </div>
+                            
+                            <input id="draw_chart" type="button" class="btn btn-success" value="Chart" style="margin-left:20px; display: inline-block" onClick="chart_1D();"/>
+                        </div>
+                        <hr style="border: transparent;">
+                        <div id="chart" style="text-align: center;"></div>
+                        <div>
+                        <hr style="border: transparent;">
+                        	<button type="button" class="btn btn-success"><a href="https://us-east-1.quicksight.aws.amazon.com/sn/analyses/c1cc0103-e61e-4021-9e54-48946a43320c#" style="color:white;text-decoration:none;" target="_blank">More analyses</a></button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+                integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+                integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+                crossorigin="anonymous"></script>
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript" src="script_operation.js"></script>
+        <script type="text/javascript" src="http://d3js.org/d3.v4.min.js"></script>
+        <script src="http://d3js.org/topojson.v2.min.js"></script>
+        <script type="text/javascript" src="US_map.js"></script>
+
+        <script type="text/javascript" src="script_chart_1D.js"></script>
+    </body>
+</html>
+

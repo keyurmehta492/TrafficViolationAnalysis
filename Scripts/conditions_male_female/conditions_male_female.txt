@@ -1,0 +1,63 @@
+Dataset = LOAD 's3://bigdataiupuiproject/Input/Traffic_Violations1.csv' USING PigStorage(',') AS (Date_of_Stop:chararray,
+Time_Of_Stop:chararray,
+Agency:chararray,
+SubAgency:chararray,
+Description:chararray,
+Location:chararray,
+Latitude:chararray,
+Longitude:chararray,
+Accident:chararray,
+Belts:chararray,
+Personal_Injury:chararray,
+Property_Damage:chararray,
+Fatal:chararray,
+Commercial_License:chararray,
+HAZMAT:chararray,
+Commercial_Vehicle:chararray,
+Alcohol:chararray,
+Work_Zone:chararray,
+State:chararray,
+VehicleType:chararray,
+Year:int,
+Make:chararray,
+Model:chararray,
+Color:chararray,
+Violation_Type:chararray,
+Charge:chararray,
+Article:chararray,
+Contributed_To_Accident:chararray,
+Race:chararray,
+Gender:chararray,
+Driver_City:chararray,
+Driver_State:chararray,
+DL_State:chararray,
+Arrest_Type:chararray);
+
+set default_parallel 1
+ConditionProjection = FOREACH Dataset GENERATE Accident, Belts, Personal_Injury, Property_Damage, Fatal, Commercial_License, HAZMAT, Commercial_Vehicle, Alcohol, Work_Zone, Gender;
+--Gender wise count for no belts
+BeltsFilter = FILTER ConditionProjection by Belts == 'Yes';
+BeltsGroup = GROUP BeltsFilter by Gender;
+CountBeltsValues = FOREACH BeltsGroup GENERATE CONCAT('Belt ', ' '),group, COUNT(BeltsFilter.Belts);
+--Gender wise count for alcohol drivers
+AlcoholFilter = FILTER ConditionProjection by Alcohol == 'Yes';
+AlcoholGroup = GROUP AlcoholFilter by Gender;
+CountAlcoholValues = FOREACH AlcoholGroup GENERATE CONCAT('Alcohol ', ' '), group, COUNT(AlcoholFilter.Alcohol);
+--Gender wise count for hazmat violations
+HAZMATFilter = FILTER ConditionProjection by HAZMAT == 'Yes';
+HAZMATGroup = GROUP HAZMATFilter by Gender;
+CountHAZMATValues = FOREACH HAZMATGroup GENERATE CONCAT('HAZMAT ', ' '), group, COUNT(HAZMATFilter.HAZMAT);
+--Gender wise count for Commercial_License violations
+Commercial_LicenseFilter = FILTER ConditionProjection by Commercial_License == 'Yes';
+Commercial_LicenseGroup = GROUP Commercial_LicenseFilter by Gender;
+CountCommercial_LicenseValues = FOREACH Commercial_LicenseGroup GENERATE CONCAT('Commercial_License ', ' '), group, COUNT(Commercial_LicenseFilter.Commercial_License);
+
+--Gender wise count for accident caught people
+AccidentFilter = FILTER ConditionProjection by Accident == 'Yes';
+AccidentGroup = GROUP AccidentFilter by Gender;
+CountAccidentValues = FOREACH AccidentGroup GENERATE CONCAT('Accident ', ' '),group, COUNT(AccidentFilter.Accident);
+--Group all datasets in one file
+UnionResult = UNION CountBeltsValues, CountAlcoholValues, CountAccidentValues, CountCommercial_LicenseValues, CountHAZMATValues;
+GroupUnionResult = GROUP UnionResult BY 1; -- group ALL of the records together
+FlattenGroupUnionResult = FOREACH GroupUnionResult GENERATE FLATTEN(UnionResult);
+STORE  FlattenGroupUnionResult INTO 's3://bigdataiupuiproject/output/count-condition-result-with-gender';

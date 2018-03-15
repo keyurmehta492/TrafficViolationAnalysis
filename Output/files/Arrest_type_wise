@@ -1,0 +1,20 @@
+Arrest Type	1
+L - Motorcycle	9964
+O - Foot Patrol	10916
+Q - Marked Laser	105014
+A - Marked Patrol	827568
+C - Marked VASCAR	382
+P - Mounted Patrol	210
+R - Unmarked Laser	4907
+B - Unmarked Patrol	32437
+D - Unmarked VASCAR	226
+K - Aircraft Assist	44
+M - Marked (Off-Duty)	1566
+N - Unmarked (Off-Duty)	151
+E - Marked Stationary Radar	6355
+F - Unmarked Stationary Radar	663
+S - License Plate Recognition	12547
+I - Marked Moving Radar (Moving)	1405
+J - Unmarked Moving Radar (Moving)	225
+G - Marked Moving Radar (Stationary)	3593
+H - Unmarked Moving Radar (Stationary)	461

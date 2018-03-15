@@ -1,0 +1,40 @@
+Dataset = LOAD 's3://bigdataproj590/input/Traffic_Violations.csv' USING PigStorage(',') AS (Date_of_Stop:chararray,
+Time_Of_Stop:chararray,
+Agency:chararray,
+SubAgency:chararray,
+Description:chararray,
+Location:chararray,
+Latitude:chararray,
+Longitude:chararray,
+Accident:chararray,
+Belts:chararray,
+Personal_Injury:chararray,
+Property_Damage:chararray,
+Fatal:chararray,
+Commercial_License:chararray,
+HAZMAT:chararray,
+Commercial_Vehicle:chararray,
+Alcohol:chararray,
+Work_Zone:chararray,
+State:chararray,
+VehicleType:chararray,
+Year:int,
+Make:chararray,
+Model:chararray,
+Color:chararray,
+Violation_Type:chararray,
+Charge:chararray,
+Article:chararray,
+Contributed_To_Accident:chararray,
+Race:chararray,
+Gender:chararray,
+Driver_City:chararray,
+Driver_State:chararray,
+DL_State:chararray,
+Arrest_Type:chararray);
+Dates = FILTER Dataset BY (Date_of_Stop != 'Date Of Stop');
+Date_Projection = FOREACH Dates GENERATE ToDate(Date_of_Stop, 'MM/dd/yyyy') as Date;
+Month_Year_Proj = FOREACH Date_Projection GENERATE GetMonth(Date) as Month, GetYear(Date) as Year;
+Year_group = GROUP Month_Year_Proj BY (Year, Month);
+Month_Year_Count = FOREACH Year_group GENERATE group.Year, group.Month, COUNT(Month_Year_Proj) as Month_Year_Violation;
+STORE Month_Year_Count INTO 's3://bigdataproj590/output/Month_Year_wise';

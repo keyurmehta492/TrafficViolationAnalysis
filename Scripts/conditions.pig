@@ -1,0 +1,40 @@
+Dataset = LOAD 's3://bigdataiupuiproject/Input/Traffic_Violations1.csv' USING PigStorage(',') AS (Date_of_Stop:chararray,
+Time_Of_Stop:chararray,
+Agency:chararray,
+SubAgency:chararray,
+Description:chararray,
+Location:chararray,
+Latitude:chararray,
+Longitude:chararray,
+Accident:chararray,
+Belts:chararray,
+Personal_Injury:chararray,
+Property_Damage:chararray,
+Fatal:chararray,
+Commercial_License:chararray,
+HAZMAT:chararray,
+Commercial_Vehicle:chararray,
+Alcohol:chararray,
+Work_Zone:chararray,
+State:chararray,
+VehicleType:chararray,
+Year:int,
+Make:chararray,
+Model:chararray,
+Color:chararray,
+Violation_Type:chararray,
+Charge:chararray,
+Article:chararray,
+Contributed_To_Accident:chararray,
+Race:chararray,
+Gender:chararray,
+Driver_City:chararray,
+Driver_State:chararray,
+DL_State:chararray,
+Arrest_Type:chararray);
+
+ConditionProjection = FOREACH Dataset GENERATE Accident, Belts, Personal_Injury, Property_Damage, Fatal, Commercial_License, HAZMAT, Commercial_Vehicle, Alcohol, Work_Zone;
+BeltsFilter = FILTER ConditionProjection by Belts == 'Yes';
+BeltsGroup = GROUP BeltsFilter ALL;
+CountBeltsValues = FOREACH BeltsGroup GENERATE COUNT(BeltsFilter.Belts);
+STORE CountBeltsValues INTO 's3://bigdataiupuiproject/output/countconditionresult';
